@@ -32,12 +32,18 @@ if go_crawl:
     with open('fullset.red', 'wb') as pickle_file:
         pickle.dump(subs, pickle_file)       
 else:
-    objects = []
+    subs = []
     with (open("fullset.red", "rb")) as openfile:
         while True:
             try:
-                objects = pickle.load(openfile)
+                subs = pickle.load(openfile)
             except EOFError:
                 break
             
 crawl_parents = True
+
+for sub in subs:
+    if str(type(sub).__name__) == 'Comment':
+        print(sub)
+        print(sub.submission)
+        test = reddit.Submission(id=sub.submission)
