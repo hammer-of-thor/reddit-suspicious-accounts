@@ -13,15 +13,18 @@ objects = []
 with (open("fullset.red", "rb")) as openfile:
     while True:
         try:
-            objects.append(pickle.load(openfile))
+            objects = pickle.load(openfile)
         except EOFError:
             break
+
+img_exts = ['jpeg','jpg','png','gmp','tiff']
         
-test = objects[0][0]
-
-
-for obj in objects[0]:
+for obj in objects:
+    url = []
     try:
-        print(obj.url)
+        #print(obj.url)
+        url = obj.url
     except:
-        print('no url')
+        url = []
+    if str(url[-3:]) in img_exts or str(url[-4:]) in img_exts:
+        print(url)
