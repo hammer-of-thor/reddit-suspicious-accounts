@@ -11,8 +11,8 @@ seed = pd.read_csv(r'F:\CloudStation\Educational\Git\reddit-suspicious-accounts\
 
 import praw
 
-reddit = praw.Reddit(client_id='XXXX-Fg', client_secret='XXXX',
-                      user_agent='PC:XXX:0.1 (by /u/XX-X)')
+reddit = praw.Reddit(client_id='xxx-Fg', client_secret='xxxx',
+                      user_agent='PC:xxx:0.1 (by /u/xx-x)')
 
 go_crawl = False
     
@@ -41,9 +41,23 @@ else:
                 break
             
 crawl_parents = True
-
-for sub in subs:
-    if str(type(sub).__name__) == 'Comment':
-        print(sub)
-        print(sub.submission)
-        test = reddit.Submission(id=sub.submission)
+if crawl_parents:
+    parents = []
+    for sub in subs:
+        if str(type(sub).__name__) == 'Comment':
+            #print(sub)
+            #print(sub.submission)
+            test = praw.models.Submission(reddit, id=sub.submission)
+            parents.append(test)
+            
+        with open('parents.red', 'wb') as pickle_file:
+            pickle.dump(parents, pickle_file)       
+else:
+    parents = []
+    with (open("parents.red", "rb")) as openfile:
+        while True:
+            try:
+                parents = pickle.load(openfile)
+            except EOFError:
+                break
+        
